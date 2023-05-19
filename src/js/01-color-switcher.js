@@ -12,27 +12,6 @@ btnStart.addEventListener('click', holderBtnStart);
 
 btnStop.addEventListener('click', holderBtnStop);
 
-// function holderBtnStart(event) {
-//   btnStart.disabled = true;
-//   colorIntervalId = setInterval(bodyColorChange, delay);
-//   delay = 1000;
-// }
-
-// function bodyColorChange() {
-//   body.style.backgroundColor = getRandomHexColor();
-// }
-
-// function getRandomHexColor() {
-//   return `#${Math.floor(Math.random() * 16777215)
-//     .toString(16)
-//     .padStart(6, 0)}`;
-// }
-
-// function holderBtnStop() {
-//   clearInterval(colorIntervalId);
-//   btnStart.disabled = false;
-// }
-
 function holderBtnStart(event) {
   btnStart.disabled = true;
   colorIntervalId = setTimeout(function bodyColorChange() {
