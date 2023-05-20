@@ -3,6 +3,7 @@ import 'flatpickr/dist/flatpickr.min.css';
 
 const refs = {
   startBtn: document.querySelector('[data-start]'),
+  timerInput: document.getElementById('datetime-picker'),
   days: document.querySelector('[data-days]'),
   hours: document.querySelector('[data-hours]'),
   minutes: document.querySelector('[data-minutes]'),
@@ -10,6 +11,7 @@ const refs = {
 };
 
 let ms;
+let timerIntervalId;
 
 const options = {
   enableTime: true,
@@ -17,43 +19,63 @@ const options = {
   defaultDate: new Date(),
   minuteIncrement: 1,
 
-  //   onClose(selectedDates) {
-  //     const selectedDate = selectedDates[0];
-  //     let currentDate = options.defaultDate;
-  //     if (currentDate >= selectedDate) {
-  //       window.alert('Please choose a date in the future');
-  //       refs.startBtn.disabled = true;
-  //     } else {
-  //       refs.startBtn.disabled = false;
-  //       ms = selectedDate - currentDate;
-  //       console.log(ms);
-  //       const convertDate = convertMs(ms);
-  //       timerMarkup(convertDate);
-  //     }
-  //   },
+  // onClose(selectedDates) {
+  //   const selectedDate = selectedDates[0];
+  //   let currentDate = new Date();
+  //   console.log(currentDate);
+  //   if (currentDate >= selectedDate) {
+  //     window.alert('Please choose a date in the future');
+  //     refs.startBtn.disabled = true;
+  //   } else {
+  //     refs.startBtn.disabled = false;
+  //     ms = selectedDate - currentDate;
+  //     console.log(ms);
+  //     const convertDate = convertMs(ms);
+  //     timerMarkup(convertDate);
+  //   }
+  // },
 
   onClose(selectedDates) {
     const selectedDate = selectedDates[0];
-    let currentDate = options.defaultDate;
-    if (currentDate >= selectedDate) {
+
+    if (options.defaultDate >= selectedDate) {
       window.alert('Please choose a date in the future');
       refs.startBtn.disabled = true;
     } else {
       refs.startBtn.disabled = false;
+      refs.startBtn.addEventListener('click', handlerStartBtn);
 
-      setInterval(countTimer, 1000);
-
-      function countTimer() {
-        ms = selectedDate - currentDate;
-        console.log(ms);
-        const convertDate = convertMs(ms);
-        timerMarkup(convertDate);
+      function handlerStartBtn() {
+        refs.startBtn.disabled = true;
+        refs.timerInput.disabled = true;
+        timerIntervalId = setInterval(countTimer, 1000, selectedDate);
       }
     }
   },
 };
 
 flatpickr('#datetime-picker', options);
+
+refs.startBtn.disabled = true;
+
+function countTimer(selectedDate) {
+  const currentDate = new Date();
+  console.log(selectedDate);
+
+  ms = selectedDate - currentDate;
+  console.log(ms);
+  const convertDate = convertMs(ms);
+  timerMarkup(convertDate);
+  if (
+    refs.days.textContent == 0 &&
+    refs.hours.textContent == 0 &&
+    refs.minutes.textContent == 0 &&
+    refs.seconds.textContent == 0
+  ) {
+    clearInterval(timerIntervalId);
+    refs.timerInput.disabled = false;
+  }
+}
 
 function timerMarkup({ days, hours, minutes, seconds }) {
   refs.days.textContent = days;
