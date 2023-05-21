@@ -10,6 +10,7 @@ body {
   background-color: #fafafa;
   color: #212121;
   line-height: 1.5;
+  
 }
 
 img {
@@ -28,7 +29,7 @@ img {
 .field{
   display: flex;
   flex-direction: column-reverse;
-  width: 80px;
+  width: 90px;
   padding: 5px;
   background-color: lightgray;
   border: 1px inset black;
@@ -57,9 +58,9 @@ border: 2px solid black;
   border: 1px solid black;
 background-color: inherit;
 }
-.start-btn, 
+ 
 .start-btn {
-  margin-left: 10px;
+
   height: 70px;
   width: 70px;
   font-size: 20px;
@@ -71,3 +72,4 @@ background-color: inherit;
   cursor: pointer;
   background-color: red
 }
+

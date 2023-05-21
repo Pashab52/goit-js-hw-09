@@ -1,6 +1,12 @@
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 
+import Notiflix from 'notiflix';
+
+Notiflix.Notify.init({
+  position: 'center-top', // 'right-top' - 'right-bottom' - 'left-top' - 'left-bottom' - 'center-top' - 'center-bottom' - 'center-center'
+});
+
 const refs = {
   startBtn: document.querySelector('[data-start]'),
   timerInput: document.getElementById('datetime-picker'),
@@ -23,7 +29,7 @@ const options = {
     const selectedDate = selectedDates[0];
 
     if (options.defaultDate >= selectedDate) {
-      window.alert('Please choose a date in the future');
+      Notiflix.Notify.warning('Please choose a date in the future');
       refs.startBtn.disabled = true;
     } else {
       refs.startBtn.disabled = false;
@@ -32,7 +38,7 @@ const options = {
       function handlerStartBtn() {
         refs.startBtn.disabled = true;
         refs.timerInput.disabled = true;
-        timerIntervalId = setInterval(countTimer, 1000, selectedDate);
+        timerIntervalId = setTimeout(countTimer, 0, selectedDate);
       }
     }
   },
@@ -47,7 +53,7 @@ function countTimer(selectedDate) {
   console.log(selectedDate);
 
   if (currentDate >= selectedDate) {
-    clearInterval(timerIntervalId);
+    clearTimeout(timerIntervalId);
     return;
   }
 
@@ -60,13 +66,14 @@ function countTimer(selectedDate) {
     refs.minutes.textContent == 0 &&
     refs.seconds.textContent == 0
   ) {
-    clearInterval(timerIntervalId);
+    clearTimeout(timerIntervalId);
 
     // refs.timerInput.disabled = false;
     // хотів зробити, щоб після закінчення відліку інпут розблоковувався і можна було
     // вибрати дату і запустити таймер ще раз, але чомусь в таймер підтягується перша
     // видрана дата і відображається почергово на сторінці
   }
+  timerIntervalId = setTimeout(countTimer, 1000, selectedDate);
 }
 
 function addLeadingZero(data) {

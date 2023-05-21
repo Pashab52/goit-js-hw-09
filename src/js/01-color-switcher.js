@@ -4,9 +4,8 @@ const { btnStart, btnStop, body } = {
   body: document.body,
 };
 let colorIntervalId;
-let delay = 0;
 
-console.log(btnStart, btnStop, body);
+btnStop.disabled = true;
 
 btnStart.addEventListener('click', holderBtnStart);
 
@@ -14,16 +13,13 @@ btnStop.addEventListener('click', holderBtnStop);
 
 function holderBtnStart(event) {
   btnStart.disabled = true;
+  btnStop.disabled = false;
   colorIntervalId = setTimeout(function bodyColorChange() {
     body.style.backgroundColor = getRandomHexColor();
-    delay = 1000;
-    colorIntervalId = setTimeout(bodyColorChange, delay);
-  }, delay);
+    console.log(body.style.backgroundColor);
+    colorIntervalId = setTimeout(bodyColorChange, 1000);
+  }, 0);
 }
-
-// function bodyColorChange() {
-//   body.style.backgroundColor = getRandomHexColor();
-// }
 
 function getRandomHexColor() {
   return `#${Math.floor(Math.random() * 16777215)
@@ -33,6 +29,6 @@ function getRandomHexColor() {
 
 function holderBtnStop() {
   clearTimeout(colorIntervalId);
-  delay = 0;
   btnStart.disabled = false;
+  btnStop.disabled = true;
 }
