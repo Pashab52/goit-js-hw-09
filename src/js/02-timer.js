@@ -17,7 +17,7 @@ const refs = {
 };
 
 let ms;
-let timerIntervalId;
+let timerTimeoutId;
 let delay = 0;
 const options = {
   enableTime: true,
@@ -38,7 +38,7 @@ const options = {
       function handlerStartBtn() {
         refs.startBtn.disabled = true;
         refs.timerInput.disabled = true;
-        timerIntervalId = setTimeout(countTimer, 0, selectedDate);
+        timerTimeoutId = setTimeout(countTimer, 0, selectedDate);
       }
     }
   },
@@ -53,7 +53,7 @@ function countTimer(selectedDate) {
   console.log(selectedDate);
 
   if (currentDate >= selectedDate) {
-    clearTimeout(timerIntervalId);
+    clearTimeout(timerTimeoutId);
     return;
   }
 
@@ -66,14 +66,14 @@ function countTimer(selectedDate) {
     refs.minutes.textContent == 0 &&
     refs.seconds.textContent == 0
   ) {
-    clearTimeout(timerIntervalId);
+    clearTimeout(timerTimeoutId);
 
     // refs.timerInput.disabled = false;
     // хотів зробити, щоб після закінчення відліку інпут розблоковувався і можна було
     // вибрати дату і запустити таймер ще раз, але чомусь в таймер підтягується перша
     // видрана дата і відображається почергово на сторінці
   }
-  timerIntervalId = setTimeout(countTimer, 1000, selectedDate);
+  timerTimeoutId = setTimeout(countTimer, 1000, selectedDate);
 }
 
 function addLeadingZero(data) {
