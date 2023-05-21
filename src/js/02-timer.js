@@ -12,28 +12,12 @@ const refs = {
 
 let ms;
 let timerIntervalId;
-
+let delay = 0;
 const options = {
   enableTime: true,
   time_24hr: true,
   defaultDate: new Date(),
   minuteIncrement: 1,
-
-  // onClose(selectedDates) {
-  //   const selectedDate = selectedDates[0];
-  //   let currentDate = new Date();
-  //   console.log(currentDate);
-  //   if (currentDate >= selectedDate) {
-  //     window.alert('Please choose a date in the future');
-  //     refs.startBtn.disabled = true;
-  //   } else {
-  //     refs.startBtn.disabled = false;
-  //     ms = selectedDate - currentDate;
-  //     console.log(ms);
-  //     const convertDate = convertMs(ms);
-  //     timerMarkup(convertDate);
-  //   }
-  // },
 
   onClose(selectedDates) {
     const selectedDate = selectedDates[0];
@@ -62,8 +46,12 @@ function countTimer(selectedDate) {
   const currentDate = new Date();
   console.log(selectedDate);
 
+  if (currentDate >= selectedDate) {
+    clearInterval(timerIntervalId);
+    return;
+  }
+
   ms = selectedDate - currentDate;
-  console.log(ms);
   const convertDate = convertMs(ms);
   timerMarkup(convertDate);
   if (
@@ -73,15 +61,23 @@ function countTimer(selectedDate) {
     refs.seconds.textContent == 0
   ) {
     clearInterval(timerIntervalId);
-    refs.timerInput.disabled = false;
+
+    // refs.timerInput.disabled = false;
+    // хотів зробити, щоб після закінчення відліку інпут розблоковувався і можна було
+    // вибрати дату і запустити таймер ще раз, але чомусь в таймер підтягується перша
+    // видрана дата і відображається почергово на сторінці
   }
 }
 
+function addLeadingZero(data) {
+  return String(data).padStart(2, '0');
+}
+
 function timerMarkup({ days, hours, minutes, seconds }) {
-  refs.days.textContent = days;
-  refs.hours.textContent = hours;
-  refs.minutes.textContent = minutes;
-  refs.seconds.textContent = seconds;
+  refs.days.textContent = addLeadingZero(days);
+  refs.hours.textContent = addLeadingZero(hours);
+  refs.minutes.textContent = addLeadingZero(minutes);
+  refs.seconds.textContent = addLeadingZero(seconds);
 }
 
 function convertMs(ms) {
@@ -90,7 +86,6 @@ function convertMs(ms) {
   const minute = second * 60;
   const hour = minute * 60;
   const day = hour * 24;
-
   // Remaining days
   const days = Math.floor(ms / day);
   // Remaining hours
@@ -103,6 +98,4 @@ function convertMs(ms) {
   return { days, hours, minutes, seconds };
 }
 
-// console.log(convertMs(2000)); // {days: 0, hours: 0, minutes: 0, seconds: 2}
-// console.log(convertMs(140000)); // {days: 0, hours: 0, minutes: 2, seconds: 20}
-// console.log(convertMs(24140000)); // {days: 0, hours: 6 minutes: 42, seconds: 20}
+refs.startBtn.classList.add('start-btn');

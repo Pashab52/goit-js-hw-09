@@ -16,3 +16,58 @@ img {
   display: block;
   max-width: 100%;
 }
+
+.timer {
+   display: flex;
+   justify-content: center;
+   gap: 10px;
+  
+   
+
+ }
+.field{
+  display: flex;
+  flex-direction: column-reverse;
+  width: 80px;
+  padding: 5px;
+  background-color: lightgray;
+  border: 1px inset black;
+  border-radius: 5px;
+}
+.value {
+  margin-left: auto;
+    margin-right: auto;
+    font-size: 50px;
+}
+
+.label {
+  text-transform: uppercase;
+  margin-left: auto;
+    margin-right: auto;
+  font-weight: 500;
+}
+
+.flatpickr-input {
+font-size: 20px;
+border-radius: 5px;
+border: 2px solid black;
+}
+
+.start-btn:disabled{
+  border: 1px solid black;
+background-color: inherit;
+}
+.start-btn, 
+.start-btn {
+  margin-left: 10px;
+  height: 70px;
+  width: 70px;
+  font-size: 20px;
+  border: 2px solid black;
+  border-radius: 50%;
+  background-color: orangered
+}
+.start-btn:enabled:hover {
+  cursor: pointer;
+  background-color: red
+}
