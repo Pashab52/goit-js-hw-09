@@ -39,10 +39,9 @@ function handlerSubmitPromise(event) {
   const amount = form.amount.value;
   let delay = Number(form.delay.value);
   const step = Number(form.step.value);
-  delay -= step;
+
   for (let i = 1; i <= amount; i += 1) {
     let position = i;
-    delay += step;
     createPromise(position, delay)
       .then(({ position, delay }) => {
         Notiflix.Notify.success(
@@ -54,5 +53,6 @@ function handlerSubmitPromise(event) {
           `❌ Rejected promise ${position} in ${delay}ms`
         );
       });
+    delay += step;
   }
 }
